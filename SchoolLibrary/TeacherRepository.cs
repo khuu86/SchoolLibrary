@@ -13,13 +13,29 @@ namespace SchoolLibrary
 
         public void AddTeacher(Teacher teacher)
         {
+            teacher.Validate();
             teacher.Id = nextId++;
             teachers.Add(teacher);
         }
-        public List<Teacher> Get()
+
+        // Laver kopi af listen 
+        public IEnumerable<Teacher> Get(int? minSalary = null, string? name = null)
         {
             // Copy constructor)
-            return new List<Teacher>(teachers);
+            List<Teacher> result = new List<Teacher>(teachers);
+            if (minSalary != null)
+            {
+                //result = result.Where(t => t.Salary >= minSalary);
+                result = result.FindAll(t => t.Salary >= minSalary);
+            }
+            if (name != null)
+            {
+                //result = result.Where(t => t.Name == name);
+                result = result.FindAll(t => t.Name == name);
+            }
+            return result;
+
+
         }
 
         public Teacher? Get(int id)
@@ -40,6 +56,7 @@ namespace SchoolLibrary
 
         public Teacher? Update(int id, Teacher data)
         {
+            data.Validate();
             Teacher? existingTeacher = Get(id);
             if (existingTeacher == null)
             {
