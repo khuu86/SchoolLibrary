@@ -19,7 +19,9 @@ namespace SchoolLibrary
         }
 
         // Laver kopi af listen 
-        public IEnumerable<Teacher> Get(int? minSalary = null, string? name = null)
+        public IEnumerable<Teacher> Get(int? minSalary = null,
+            string? name = null,
+            string? sortBy = null)
         {
             // Copy constructor)
             List<Teacher> result = new List<Teacher>(teachers);
@@ -32,6 +34,23 @@ namespace SchoolLibrary
             {
                 //result = result.Where(t => t.Name == name);
                 result = result.FindAll(t => t.Name == name);
+            }
+            if (sortBy != null)
+            {
+                switch (sortBy.ToLower())
+                {
+                    case "name":
+                        result.Sort((t1, t2) => t1.Name.CompareTo(t2.Name));
+                        break;
+                    case "namedesc":
+                        result.Sort((t1, t2) => t2.Name.CompareTo(t1.Name));
+                        break;
+                    case "salary":
+                        result.Sort((t1, t2) => t1.Salary - t2.Salary);
+                        break;
+                    default:
+                        throw new ArgumentException($"Unknown sort field: {sortBy}");
+                }
             }
             return result;
 
