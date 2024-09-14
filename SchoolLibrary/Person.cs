@@ -13,7 +13,6 @@ namespace SchoolLibrary
         public string Name { get; set; }
 
 
-
         public void ValidateName()
         {
             if (Name == null)

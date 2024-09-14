@@ -8,94 +8,104 @@ using System.Threading.Tasks;
 
 namespace SchoolLibrary.Tests
 {
+    /// <summary>
+    /// Testklasse til validering af Student-objekter, som arver fra Person-klassen.
+    /// Tester navn fra Person samt semester fra Student.
+    /// </summary>
     [TestClass()]
     public class StudentTests
     {
+        /// <summary>
+        /// Tester validering af Student-navn (arvet fra Person-klassen), inkl. null, tomme og gyldige værdier.
+        /// </summary>
         [TestMethod()]
         public void ValidateNameTest()
         {
-            // Arrange: Test null name
+            // Arrange: Opretter en student med null navn (ugyldigt)
             Student studentNullname = new Student
             {
                 Id = 1,
-                Name = null,
+                Name = null,  // Invalid name
                 Semester = 1
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentNullException, da navnet er null
             Assert.ThrowsException<ArgumentNullException>(
                 () => studentNullname.ValidateName());
 
-            // Arrange: Test empty name
+            // Arrange: Opretter en student med tomt navn (ugyldigt)
             Student studentEmptyName = new Student
             {
                 Id = 2,
-                Name = "",
+                Name = "",  // Invalid name
                 Semester = 2
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentOutOfRangeException, da navnet er tomt
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => studentEmptyName.ValidateName());
 
-            // Arrange: Test valid name > 1
+            // Arrange: Opretter en student med gyldigt navn
             Student studentValidName = new Student
             {
                 Id = 3,
-                Name = "Tan",
+                Name = "Tan", // Valid name
                 Semester = 3
             };
 
-            // Act
+            // Act: Validerer det gyldige navn (Person's ValidateName())
             studentValidName.ValidateName();
 
-            // Assert
+            // Assert: Bekræfter at navnet stadig er korrekt
             Assert.AreEqual("Tan", studentValidName.Name);
         }
 
+        /// <summary>
+        /// Tester validering af Student-semester, inkl. for lave, for høje og gyldige værdier.
+        /// </summary>
         [TestMethod()]
         public void ValidateSemesterTest()
         {
-            // Arrange: Test invalid Semester  = 0 (too low)
+            // Arrange: Opretter en student med semester 0 (ugyldigt)
             Student studentLowSemester = new Student
             {
                 Id = 4,
                 Name = "Student4",
-                Semester = 0
+                Semester = 0  // Invalid semester
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentOutOfRangeException, da semester er for lavt
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => studentLowSemester.ValidateSemester());
 
-            // Arrange: Test invalid semester = 5 (too high)
+            // Arrange: Opretter en student med semester 9 (ugyldigt)
             Student studentHighSemester = new Student
             {
                 Id = 5,
                 Name = "Student5",
-                Semester = 9
+                Semester = 9 // Invalid semester
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentOutOfRangeException, da semester er for højt
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => studentHighSemester.ValidateSemester());
 
-            // Arrange: Test valid semester = 1
+            // Arrange: Opretter en student med semester 1 (gyldigt)
             Student studentValidSemester1 = new Student
             {
                 Id = 6,
                 Name = "Student6",
-                Semester = 1
+                Semester = 1 // Valid semester
             };
 
-            // Act
+            // Act: Validerer det gyldige semester
             studentValidSemester1.ValidateSemester();
 
-            // Assert
+            // Assert: Bekræfter at semester er korrekt
             Assert.AreEqual(1, studentValidSemester1.Semester);
 
 
-            // Arrange: Test valid semester = 8
+            // Arrange: Opretter en student med semester 8 (gyldigt)
             Student studentValidSemester8 = new Student
             {
                 Id = 7,
@@ -103,39 +113,42 @@ namespace SchoolLibrary.Tests
                 Semester = 8
             };
 
-            // Act
+            // Act: Validerer det gyldige semester
             studentValidSemester8.ValidateSemester();
 
-            // Assert
+            // Assert: Bekræfter at semester er korrekt
             Assert.AreEqual(8, studentValidSemester8.Semester);
         }
 
+        /// <summary>
+        /// Tester samlet validering af både navn (fra Person) og semester (fra Student).
+        /// </summary>
         [TestMethod()]
         public void ValidateTest()
         {
-            // Arrange: Valid student
+            // Arrange: Opretter en gyldig student
             Student validStudent = new Student
             {
                 Id = 8,
-                Name = "Student8",
-                Semester = 5
+                Name = "Student8", // Valid name
+                Semester = 5 // Valid semester
             };
 
-            // Act & Assert
+            // Act & Assert: Validerer den gyldige student
             validStudent.Validate();
 
-            // Arrange: Invalid student (null name), Valid semester
+            // Arrange: Opretter en student med null navn og gyldigt semester
             Student invalidStudent = new Student
             {
                 Id = 9,
-                Name = null,
-                Semester = 7
+                Name = null, // Invalid name
+                Semester = 7 // Valid semester
             };
 
-            // Act & Assert: Expect ArgumentNullException first
+            // Act & Assert: Forventer ArgumentNullException på grund af null navn (fra Person's Validate())
             Assert.ThrowsException<ArgumentNullException>(() => invalidStudent.Validate());
 
-            // Arrange: Invalid name and semester
+            // Arrange: Opretter en student med både ugyldigt navn og semester
             Student invalidStudent2 = new Student
             {
                 Id = 10,
@@ -143,16 +156,17 @@ namespace SchoolLibrary.Tests
                 Semester = 0 // Invalid semester
             };
 
-            // Act & Assert: Expect ArgumentOutOfRangeException first
+            // Act & Assert: Forventer ArgumentOutOfRangeException
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => invalidStudent2.Validate());
         }
 
-
-
+        /// <summary>
+        /// Tester Student-klassens ToString metode for korrekt format.
+        /// </summary>
         [TestMethod()]
         public void TostringTest()
         {
-            // Arrange
+            // Arrange: Opretter en student
             Student student = new Student
             {
                 Id = 11,
@@ -160,10 +174,10 @@ namespace SchoolLibrary.Tests
                 Semester = 2
             };
 
-            // Act
+            // Act: Kalder ToString-metoden på student-objektet
             string result = student.ToString();
 
-            // Assert
+            // Assert: Sammenligner resultatet med det forventede output
             Assert.AreEqual("11, Frank, Semester: 2", result);
         }
     }

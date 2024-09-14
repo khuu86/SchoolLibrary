@@ -7,128 +7,146 @@ using System.Threading.Tasks;
 
 namespace SchoolLibrary.Tests
 {
+    /// <summary>
+    /// Testklasse til validering af Teacher-objekter, som arver fra Person-klassen.
+    /// Tester navn fra Person, løn og klasser fra Teacher.
+    /// </summary>
     [TestClass()]
     public class TeacherTests
     {
+        /// <summary>
+        /// Tester validering af Teacher-løn, inkl. positive og negative værdier.
+        /// </summary>
         [TestMethod()]
         public void ValidateSalaryTest()
         {
-            // Arrange
+            // Arrange: Opretter en teacher med positiv løn (gyldig)
             Teacher teacherPositiveSalary = new Teacher
             {
                 Name = "Tan",
-                Salary = 100
+                Salary = 100 // Valid salary
             };
 
-            // Act
+            // Act: Validerer den gyldige løn
             teacherPositiveSalary.ValidateSalary();
 
-            // Assert 
+            // Assert: Bekræfter at lønnen er korrekt
             Assert.AreEqual(100, teacherPositiveSalary.Salary);
 
-            // Arrange for negative salary
+            // Arrange: Opretter en teacher med negativ løn (ugyldig)
             Teacher teacherNegativeSalary = new Teacher()
             {
                 Id = 1,
                 Name = "Rasmus",
-                Salary = -100
+                Salary = -100 // Invalid salary
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentOutOfRangeException, da lønnen er negativ
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => teacherNegativeSalary.ValidateSalary());
         }
 
+        /// <summary>
+        /// Tester validering af Teacher-navn (arvet fra Person-klassen), inkl. null, tomme og gyldige værdier.
+        /// </summary>
         [TestMethod()]
         public void ValidateNameTest()
         {
-            // Arrange: Test null name
+            // Arrange: Opretter en teacher med null navn (ugyldigt)
             Teacher teacherNullname = new Teacher
             {
                 Id = 2,
-                Name = null,
+                Name = null, // Invalid name
                 Salary = 50
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentNullException, da navnet er null
             Assert.ThrowsException<ArgumentNullException>(
                 () => teacherNullname.ValidateName());
 
-            // Arrange: Test empty name
+            // Arrange: Opretter en teacher med tomt navn (ugyldigt)
             Teacher teacherEmptyName = new Teacher
             {
                 Id = 3,
-                Name = "",
+                Name = "", // Invalid name
                 Salary = 150
             };
 
-            // Act & Assert
+            // Act & Assert: Forventer ArgumentOutOfRangeException, da navnet er tomt
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => teacherEmptyName.ValidateName());
 
-            // Arrange: Test valid name 
+            // Arrange: Opretter en teacher med gyldigt navn
             Teacher teacherValidName = new Teacher
             {
                 Id = 4,
-                Name = "Tan",
+                Name = "Tan", // Valid name
                 Salary = 100
             };
 
-            // Act
+            // Act: Validerer det gyldige navn (Person's ValidateName())
             teacherValidName.ValidateName();
 
-            // Assert
+            // Assert: Bekræfter at navnet stadig er korrekt
             Assert.AreEqual("Tan", teacherValidName.Name);
         }
 
+        /// <summary>
+        /// Tester samlet validering af både navn (fra Person) og løn (fra Teacher).
+        /// </summary>
         [TestMethod()]
         public void ValidateTest()
         {
-            // Arrange: Valid teacher
+            // Arrange: Opretter en gyldig teacher
             Teacher validTeacher = new Teacher
             {
                 Id = 5,
-                Name = "Alex",
-                Salary = 200
+                Name = "Alex", // Valid name
+                Salary = 200 // Valid salary
             };
 
-            // Act & Assert
+            // Act & Assert: Validerer den gyldige teacher
             validTeacher.Validate();
 
-            // Arrange: Invalid teacher (null name and negative salary)
+            // Arrange: Opretter en teacher med null navn (ugyldigt) og gyldig løn
             Teacher invalidTeacher = new Teacher
             {
                 Id = 6,
-                Name = null,
-                Salary = 200
+                Name = null, // Invalid name
+                Salary = 200 // Valid salary
             };
 
-            // Act & Assert: Expect exceptions
+            // Act & Assert: Forventer ArgumentNullException på grund af null navn
             Assert.ThrowsException<ArgumentNullException>(() => invalidTeacher.Validate());
         }
 
+        /// <summary>
+        /// Tester tilføjelse og hentning af klasser for en Teacher.
+        /// </summary>
         [TestMethod()]
         public void ValidateClassesTest()
         {
-            // Arrange: Add Class
-
-            Teacher validClasses = new Teacher
+            // Arrange: Opretter en teacher og tilføjer klasser
+            Teacher validClasses = new Teacher()
             {
             };
             validClasses.AddClass("1z");
             validClasses.AddClass("2z");
+
+            // Act: Henter klasserne som en streng
             string classes = validClasses.GetClasses();
 
-
-            // Arrange: Expect Result, Actual Result
+            // Assert: Bekræfter at klasserne er korrekt hentet og formatteret
             Assert.AreEqual("1z, 2z", classes);
         }
 
+        /// <summary>
+        /// Tester Teacher-klassens ToString-metode for korrekt format.
+        /// </summary>
         [TestMethod()]
-
         public void TostringTest()
         {
-            // Arrange
+            // Arrange: Opretter en teacher
             Teacher teacher1 = new Teacher()
             {
                 Id = 7,
@@ -136,10 +154,10 @@ namespace SchoolLibrary.Tests
                 Salary = 100
             };
 
-            // Act
+            // Act: Kalder ToString-metoden på teacher-objektet
             string result = teacher1.ToString();
 
-            // Assert
+            // Assert: Bekræfter at resultatet har det forventede format
             Assert.AreEqual("7, Rasmus, 100", result);
         }
 
