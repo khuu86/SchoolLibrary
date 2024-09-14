@@ -13,11 +13,6 @@ namespace SchoolLibrary
         public string Name { get; set; }
 
 
-        // Override ToString() method
-        //public override string ToString()
-        //{
-        //    return $"{Id}, {Name}";
-        //}
 
         public void ValidateName()
         {

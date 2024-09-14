@@ -108,7 +108,7 @@ namespace SchoolLibrary.Tests
         }
 
         [TestMethod()]
-        public void ValidateClasses()
+        public void ValidateClassesTest()
         {
             // Arrange: Add Class
 

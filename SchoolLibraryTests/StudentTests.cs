@@ -38,7 +38,7 @@ namespace SchoolLibrary.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => studentEmptyName.ValidateName());
 
-            // Arrange: Test valid name 
+            // Arrange: Test valid name > 1
             Student studentValidName = new Student
             {
                 Id = 3,
@@ -56,7 +56,7 @@ namespace SchoolLibrary.Tests
         [TestMethod()]
         public void ValidateSemesterTest()
         {
-            // Arrange: Test invalid Semester (too low)
+            // Arrange: Test invalid Semester  = 0 (too low)
             Student studentLowSemester = new Student
             {
                 Id = 4,
@@ -68,7 +68,7 @@ namespace SchoolLibrary.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => studentLowSemester.ValidateSemester());
 
-            // Arrange: Test invalid semester (too high)
+            // Arrange: Test invalid semester = 5 (too high)
             Student studentHighSemester = new Student
             {
                 Id = 5,
@@ -80,7 +80,7 @@ namespace SchoolLibrary.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => studentHighSemester.ValidateSemester());
 
-            // Arrange: Test valid semester1
+            // Arrange: Test valid semester = 1
             Student studentValidSemester1 = new Student
             {
                 Id = 6,
@@ -95,7 +95,7 @@ namespace SchoolLibrary.Tests
             Assert.AreEqual(1, studentValidSemester1.Semester);
 
 
-            // Arrange: Test valid semester8
+            // Arrange: Test valid semester = 8
             Student studentValidSemester8 = new Student
             {
                 Id = 7,
@@ -135,8 +135,19 @@ namespace SchoolLibrary.Tests
             // Act & Assert: Expect ArgumentNullException first
             Assert.ThrowsException<ArgumentNullException>(() => invalidStudent.Validate());
 
+            // Arrange: Invalid name and semester
+            Student invalidStudent2 = new Student
+            {
+                Id = 10,
+                Name = "", // Invalid name
+                Semester = 0 // Invalid semester
+            };
 
+            // Act & Assert: Expect ArgumentOutOfRangeException first
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => invalidStudent2.Validate());
         }
+
+
 
         [TestMethod()]
         public void TostringTest()
@@ -144,7 +155,7 @@ namespace SchoolLibrary.Tests
             // Arrange
             Student student = new Student
             {
-                Id = 10,
+                Id = 11,
                 Name = "Frank",
                 Semester = 2
             };
@@ -153,7 +164,7 @@ namespace SchoolLibrary.Tests
             string result = student.ToString();
 
             // Assert
-            Assert.AreEqual("10, Frank, Semester: 2", result);
+            Assert.AreEqual("11, Frank, Semester: 2", result);
         }
     }
 }

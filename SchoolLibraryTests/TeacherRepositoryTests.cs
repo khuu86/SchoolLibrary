@@ -82,8 +82,84 @@ namespace SchoolLibrary.Tests
             // Assert 
             Assert.AreEqual(2, tanList.Count);
             Assert.AreEqual(3, salaryList111.Count);
+        }
 
+        [TestMethod()]
+        public void GetSortByTest()
+        {
+            // Arrange
+            TeacherRepository repository = new TeacherRepository();
+            Teacher teacher = new Teacher() { Name = "Tan", Salary = 200 };
+            repository.AddTeacher(teacher);
 
+            // Act & Assert: Expect ArgumentException for invalid sort field
+            Assert.ThrowsException<ArgumentException>(() => repository.Get(sortBy: "invalidSortField"));
+        }
+
+        [TestMethod()]
+        public void GetSortByNameTest()
+        {
+            // Arrange
+            TeacherRepository repository = new TeacherRepository();
+            Teacher teacher1 = new Teacher() { Name = "Tan", Salary = 200 };
+            Teacher teacher2 = new Teacher() { Name = "Zimon", Salary = 150 };
+            Teacher teacher3 = new Teacher() { Name = "Rasmus", Salary = 180 };
+
+            repository.AddTeacher(teacher1);
+            repository.AddTeacher(teacher2);
+            repository.AddTeacher(teacher3);
+
+            // Act: Sort by name ascending
+            var sortedByName = repository.Get(sortBy: "name").ToList();
+
+            // Assert
+            Assert.AreEqual("Rasmus", sortedByName[0].Name);
+            Assert.AreEqual("Tan", sortedByName[1].Name);
+            Assert.AreEqual("Zimon", sortedByName[2].Name);
+        }
+
+        [TestMethod()]
+        public void GetSortByNameDescTest()
+        {
+            // Arrange
+            TeacherRepository repository = new TeacherRepository();
+            Teacher teacher1 = new Teacher() { Name = "Tan", Salary = 200 };
+            Teacher teacher2 = new Teacher() { Name = "Zimon", Salary = 150 };
+            Teacher teacher3 = new Teacher() { Name = "Rasmus", Salary = 180 };
+
+            repository.AddTeacher(teacher1);
+            repository.AddTeacher(teacher2);
+            repository.AddTeacher(teacher3);
+
+            // Act: Sort by name descending
+            var sortedByNameDesc = repository.Get(sortBy: "namedesc").ToList();
+
+            // Assert
+            Assert.AreEqual("Zimon", sortedByNameDesc[0].Name);
+            Assert.AreEqual("Tan", sortedByNameDesc[1].Name);
+            Assert.AreEqual("Rasmus", sortedByNameDesc[2].Name);
+        }
+
+        [TestMethod()]
+        public void GetSortBySalaryTest()
+        {
+            // Arrange
+            TeacherRepository repository = new TeacherRepository();
+            Teacher teacher1 = new Teacher() { Name = "Tan", Salary = 200 };
+            Teacher teacher2 = new Teacher() { Name = "Zimon", Salary = 150 };
+            Teacher teacher3 = new Teacher() { Name = "Rasmus", Salary = 180 };
+
+            repository.AddTeacher(teacher1);
+            repository.AddTeacher(teacher2);
+            repository.AddTeacher(teacher3);
+
+            // Act: Sort by salary ascending
+            var sortedBySalary = repository.Get(sortBy: "salary").ToList();
+
+            // Assert
+            Assert.AreEqual(150, sortedBySalary[0].Salary);
+            Assert.AreEqual(180, sortedBySalary[1].Salary);
+            Assert.AreEqual(200, sortedBySalary[2].Salary);
         }
 
         [TestMethod()]
