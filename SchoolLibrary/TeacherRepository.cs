@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace SchoolLibrary
 {
-    public class TeacherRepository
+    public class TeacherRepository : ITeacherRepository
     {
         private int nextId = 1;
         private List<Teacher> teachers = new List<Teacher>();
 
-        public void AddTeacher(Teacher teacher)
+        public Teacher AddTeacher(Teacher teacher)
         {
             teacher.Validate();
             teacher.Id = nextId++;
             teachers.Add(teacher);
+            return teacher;
         }
 
         // Laver kopi af listen 
@@ -57,14 +58,14 @@ namespace SchoolLibrary
 
         }
 
-        public Teacher? Get(int id)
+        public Teacher? GetById(int id)
         {
             return teachers.FirstOrDefault(t => t.Id == id);
         }
 
         public Teacher? Remove(int id)
         {
-            Teacher? teacher = Get(id);
+            Teacher? teacher = GetById(id);
             if (teacher == null)
             {
                 return null;
@@ -76,7 +77,7 @@ namespace SchoolLibrary
         public Teacher? Update(int id, Teacher data)
         {
             data.Validate();
-            Teacher? existingTeacher = Get(id);
+            Teacher? existingTeacher = GetById(id);
             if (existingTeacher == null)
             {
                 return null;

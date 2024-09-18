@@ -64,9 +64,9 @@ namespace SchoolLibrary.Tests
             repository.AddTeacher(teacher2);
 
             // Assert: Kontrollerer at lærerne hentes korrekt baseret på ID
-            Assert.AreEqual(1, repository.Get(1)?.Id);
-            Assert.AreEqual(2, repository.Get(2)?.Id);
-            Assert.IsNull(repository.Get(3)?.Id); // Kontrollerer for ugyldigt ID
+            Assert.AreEqual(1, repository.GetById(1)?.Id);
+            Assert.AreEqual(2, repository.GetById(2)?.Id);
+            Assert.IsNull(repository.GetById(3)?.Id); // Kontrollerer for ugyldigt ID
         }
 
         /// <summary>
