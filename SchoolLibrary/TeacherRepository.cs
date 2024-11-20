@@ -19,6 +19,18 @@ namespace SchoolLibrary
             return teacher;
         }
 
+        // Tilføjer mock data
+        public void AddMockTeachers()
+        {
+            if (teachers.Count == 0) // Check if teachers list is empty
+            {
+                AddTeacher(new Teacher { Name = "John", Salary = 50000 });
+                AddTeacher(new Teacher { Name = "Mary", Salary = 60000 });
+                AddTeacher(new Teacher { Name = "Susan", Salary = 70000 });
+                AddTeacher(new Teacher { Name = "Jane", Salary = 80000 });
+                AddTeacher(new Teacher { Name = "Tom", Salary = 90000 });
+            }
+        }
         // Laver kopi af listen 
         public IEnumerable<Teacher> Get(int? minSalary = null,
             string? name = null,
@@ -34,7 +46,8 @@ namespace SchoolLibrary
             if (name != null)
             {
                 //result = result.Where(t => t.Name == name);
-                result = result.FindAll(t => t.Name == name);
+                //result = result.FindAll(t => t.Name == name);
+                result = result.FindAll(t => t.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
             }
             if (sortBy != null)
             {

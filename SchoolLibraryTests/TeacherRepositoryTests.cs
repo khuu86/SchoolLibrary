@@ -231,5 +231,22 @@ namespace SchoolLibrary.Tests
             Assert.AreEqual(150, updated.Salary);
             Assert.IsNull(repository.Update(114, data1)); // Kontrollerer opdatering af ikke-eksisterende ID
         }
+
+        /// <summary>
+        /// Tester tilføjelse af mock-lærere til repository.
+        /// </summary>
+        [TestMethod]
+        public void AddMockTeacherTest()
+        {
+            // Arrange: Opretter repository og tilføjer mock-teachers
+            var repository = new TeacherRepository();
+            repository.AddMockTeachers();
+
+            // Act: Henter alle lærere fra repository
+            var teachers = repository.Get();
+
+            // Assert: Kontrollerer at der er 5 mock-teachers i repository
+            Assert.AreEqual(5, teachers.Count());
+        }
     }
 }
